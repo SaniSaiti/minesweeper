@@ -1,6 +1,5 @@
 let field = [];
 
-let bombs = true;
 
 function init() {
     fillfields(10, 10);
@@ -14,16 +13,23 @@ function render(col, row) {
     for (let y = 0; y < col; y++) {
         html += `<div class="gameContainer">`;
         for (let x = 0; x < row; x++) {
+            let extraClasses = '';
             let currentField = getField(x, y);
             let content = '';
-            if (currentField.hasBomb == true) {
-                content = 'b'
-            } else if (currentField.number > 0) {
-                content = currentField.number;
+            let field = getField(x, y);
+
+            if (field.revealed) {
+                if (currentField.hasBomb) {
+                    content = 'b'
+                    extraClasses = 'field-bomb';
+                } else if (currentField.number > 0) {
+                    content = currentField.number;
+                    extraClasses = 'field-' + currentField.number;
+                }
             }
 
             html += `
-            <div id="field${x}" onclick="checkField(${x},${y})" class="field"> ${content}</div>
+            <div id="field${x}${y}" onclick="checkField(${x},${y})" class="field ${extraClasses}"> ${content}</div>
             `;
         }
         html += `</div>`;
@@ -33,7 +39,7 @@ function render(col, row) {
 
 }
 /**
- * 
+ * ${extraClasses}
  */
 function fillfields(col, row) {
     for (let y = 0; y < col; y++) {
@@ -79,8 +85,10 @@ function randomBombs() {
         getField(x - 1, y - 1).number++;
         getField(x, y - 1).number++;
         getField(x + 1, y - 1).number++;
-        getField(x + 1, y - 1).number++;
+
+        getField(x - 1, y).number++;
         getField(x + 1, y).number++;
+
         getField(x - 1, y + 1).number++;
         getField(x, y + 1).number++;
         getField(x + 1, y + 1).number++;
@@ -96,12 +104,30 @@ function getField(x, y) {
 
 }
 
-
 function checkField(x, y) {
-    console.log(x, y);
-    console.log(field[x]);
-    console.log(field[y]);
-    console.log(field[x].hasBomb);
+    console.log(x, y)
+    let field = getField(x, y);
+    field.revealed = true;
+    render(10, 10);
 
+
+    // if(field[x].hasBomb = true){
+    //     document.getElementById(x)
+    //     getField(x - 1, y - 1).number++;
+    //     getField(x, y - 1).number++;
+    //     getField(x + 1, y - 1).number++;
+
+    //     getField(x - 1, y).number++;
+    //     getField(x + 1, y).number++;
+
+    //     getField(x - 1, y + 1).number++;
+    //     getField(x, y + 1).number++;
+    //     getField(x + 1, y + 1).number++;
+
+
+
+
+    // }
 
 }
+

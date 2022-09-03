@@ -1,16 +1,47 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    height: 100vh;
+    background-image: url(img/Background/Full\ bg.png);
+    background-size: cover;
+
+}
 .gameContainer {
     display: flex;
-    background-color: red;
     margin: 5px;
 }
 
-.bgB {
-    background-color: blue;
-}
 
 .field {
     height: 50px;
     width: 50px;
     background-color: grey;
     margin: 5px;
+    background-image: url(img/buttons/00_Default.png);
+    background-size: cover;
+
+}
+
+/* .field:hover {
+    background-image: url(img/buttons/00b_Default\ -\ hover.png);
+    cursor: pointer;
+} */
+
+
+.field-bomb {
+    background-image: url(img/buttons/Mine\ explode.png);
+}
+
+.field-1 {
+    background-image: url(img/buttons/02_1.png)
+}
+
+.field-2 {
+    background-image: url(img/buttons/02_2.png)
+}
+
+.field-3 {
+    background-image: url(img/buttons/02_3.png)
 }
