@@ -1,18 +1,40 @@
+:root {
+    --header-height: 200px;
+}
+
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin: 0;
+    justify-content: flex-start;
     height: 100vh;
     background-image: url(img/Background/Full\ bg.png);
     background-size: cover;
-
 }
+
+header {
+    display: flex;
+    align-items: center;
+    height: var(--header-height);
+}
+
+main {
+    height: calc(100vh - var(--header-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .gameContainer {
     display: flex;
     margin: 5px;
 }
-
 
 .field {
     height: 50px;
@@ -21,14 +43,13 @@ body {
     margin: 5px;
     background-image: url(img/buttons/00_Default.png);
     background-size: cover;
-
 }
+
 
 /* .field:hover {
     background-image: url(img/buttons/00b_Default\ -\ hover.png);
     cursor: pointer;
 } */
-
 
 .field-bomb {
     background-image: url(img/buttons/Mine\ explode.png);
