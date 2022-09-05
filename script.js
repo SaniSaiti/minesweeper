@@ -1,51 +1,53 @@
-let field = [];
+let fields = [];
 
-
+/**
+ * initialize my functions
+ */
 function init() {
-    fillfields(10, 10);
-    render(10, 10);
+    renderRowsAndColumns(10, 10);
+    //fillfields(10, 10);
 }
 
-
-function render(col, row) {
+/**
+ * Create the size of the gamefield
+ * @param {number} rows 
+ * @param {number} columns 
+ */
+function renderRowsAndColumns(rows, columns) {
     let gamefield = document.getElementById('gamefield');
-    let html = '';
-    for (let y = 0; y < col; y++) {
-        html += `<div class="gameContainer">`;
-        for (let x = 0; x < row; x++) {
-            let extraClasses = '';
-            let currentField = getField(x, y);
-            let content = '';
-            let field = getField(x, y);
-
-            if (field.revealed) {
-                if (currentField.hasBomb) {
-                    content = 'b'
-                    extraClasses = 'field-bomb';
-                } else if (currentField.number > 0) {
-                    content = currentField.number;
-                    extraClasses = 'field-' + currentField.number;
-                }
-            }
-
-            html += `
-            <div id="field${x}${y}" onclick="checkField(${x},${y})" class="field ${extraClasses}"> ${content}</div>
-            `;
-        }
-        html += `</div>`;
+    gamefield.innerHTML = ``;
+    for (let x = 0; x < rows; x++) {
+        gamefield.innerHTML += createHtmlRow(x);
+        renderFields(x, columns);
     }
-
-    gamefield.innerHTML = html;
-
 }
+
+/**
+ * A loop create the fields
+ * @param {number} x number of row to fill
+ * @param {number} columns count of columns to create 
+ */
+function renderFields(x, columns) {
+    for (let y = 0; y < columns; y++) {
+        let row = document.getElementById(`row${x}`);
+        row.innerHTML += createHtmlField(x, y);
+    }
+}
+
+
+/**
+ * The DOMContentLoaded event fires when the HTML document has been completely parsed
+ */
+addEventListener('DOMContentLoaded', init);
+
+
+
 /**
  * ${extraClasses}
  */
 function fillfields(col, row) {
     for (let y = 0; y < col; y++) {
-
         for (let x = 0; x < row; x++) {
-
             let json = {
                 x,
                 y,
@@ -54,16 +56,10 @@ function fillfields(col, row) {
                 revealed: false,
                 marked: false,
             }
-
-            field.push(json);
-
+            fields.push(json);
         }
-
     }
-
     randomBombs();
-
-
 }
 
 
@@ -71,16 +67,16 @@ function randomBombs() {
     let bom = 5;
 
     for (let index = 0; index < bom; index++) {
-        let filteredFields = field.filter(field => field.hasBomb == false);
-        console.log(filteredFields)
+        let filteredFields = fields.filter(field => field.hasBomb == false);
+        //console.log(filteredFields)
         let randomNumber = Math.floor(Math.random() * filteredFields.length);
-        console.log(randomNumber)
+        //console.log(randomNumber)
         filteredFields[randomNumber].hasBomb = true;
 
         let x = filteredFields[randomNumber].x;
         let y = filteredFields[randomNumber].y;
 
-        console.log(getField(x - 1, y - 1))
+        //console.log(getField(x - 1, y - 1))
 
         getField(x - 1, y - 1).number++;
         getField(x, y - 1).number++;
@@ -99,13 +95,13 @@ function randomBombs() {
 
 function getField(x, y) {
 
-    return field.find(f => f.x == x && f.y == y) || { number: 0 }
+    return fields.find(f => f.x == x && f.y == y) || { number: 0 }
 
 
 }
 
 function checkField(x, y) {
-    console.log(x, y)
+    //console.log(x, y)
     let field = getField(x, y);
     field.revealed = true;
     render(10, 10);
@@ -130,4 +126,3 @@ function checkField(x, y) {
     // }
 
 }
-

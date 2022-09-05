@@ -35,3 +35,33 @@ function createTable() {
     }
     return table;
 }
+
+//######################## First Version ########################
+
+// function render(col, row) {
+//     let gamefield = document.getElementById('gamefield');
+//     let html = '';
+//     for (let y = 0; y < col; y++) {
+//         html += `<div class="gamefieldRow">`;
+//         for (let x = 0; x < row; x++) {
+//             let extraClasses = '';
+//             let currentField = getField(x, y);
+//             let content = '';
+//             let field = getField(x, y);
+//             if (field.revealed) {
+//                 if (currentField.hasBomb) {
+//                     content = 'b'
+//                     extraClasses = 'field-bomb';
+//                 } else if (currentField.number > 0) {
+//                     content = currentField.number;
+//                     extraClasses = 'field-' + currentField.number;
+//                 }
+//             }
+//             html += `
+//             <div id="field${x}${y}" onclick="checkField(${x},${y})" class="field ${extraClasses}"> ${content}</div>
+//             `;
+//         }
+//         html += `</div>`;
+//     }
+//     gamefield.innerHTML = html;
+// }
