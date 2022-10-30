@@ -1,17 +1,28 @@
+/**
+ * The DOMContentLoaded event fires when the HTML document has been completely parsed
+ */
+addEventListener('DOMContentLoaded', init);
+
+/**
+ * array to push the single fields into it, by creading the gamefield size.
+ */
 let fields = [];
+
 
 /**
  * initialize my functions
  */
 function init() {
-    renderRowsAndColumns(10, 10);
-    //fillfields(10, 10);
+    const xSize = 10;
+    const ySize = 10;
+    renderRowsAndColumns(xSize, ySize);
+    fillfields(xSize, ySize);
 }
 
 /**
  * Create the size of the gamefield
- * @param {number} rows 
- * @param {number} columns 
+ * @param {number} rows count of rows 
+ * @param {number} columns count of columns
  */
 function renderRowsAndColumns(rows, columns) {
     let gamefield = document.getElementById('gamefield');
@@ -34,16 +45,8 @@ function renderFields(x, columns) {
     }
 }
 
-
 /**
- * The DOMContentLoaded event fires when the HTML document has been completely parsed
- */
-addEventListener('DOMContentLoaded', init);
-
-
-
-/**
- * ${extraClasses}
+ * Create an object for each field 
  */
 function fillfields(col, row) {
     for (let y = 0; y < col; y++) {
@@ -59,24 +62,32 @@ function fillfields(col, row) {
             fields.push(json);
         }
     }
-    randomBombs();
+    generateBombs();
 }
 
+/**
+ * Create 10% Bombs of fields
+ * @returns {Number} 
+ */
+function bombCount() {
+    let bombs = Math.round(fields.length * 0.10);
+    return bombs;
+}
 
-function randomBombs() {
-    let bom = 5;
+/**
+ * add bombs to fields
+ */
+function generateBombs() {
 
-    for (let index = 0; index < bom; index++) {
-        let filteredFields = fields.filter(field => field.hasBomb == false);
-        //console.log(filteredFields)
-        let randomNumber = Math.floor(Math.random() * filteredFields.length);
-        //console.log(randomNumber)
-        filteredFields[randomNumber].hasBomb = true;
+    for (let index = 0; index < bombCount(); index++) {
+        // kontrolliere ob die zufallsnummer schon existiert
+        let randomNumber = Math.floor(Math.random() * fields.length);
+        console.log('randomNumber: ', randomNumber);
 
-        let x = filteredFields[randomNumber].x;
-        let y = filteredFields[randomNumber].y;
+        fields[randomNumber].hasBomb = true;
 
-        //console.log(getField(x - 1, y - 1))
+        let x = fields[randomNumber].x;
+        let y = fields[randomNumber].y;
 
         getField(x - 1, y - 1).number++;
         getField(x, y - 1).number++;
@@ -88,23 +99,25 @@ function randomBombs() {
         getField(x - 1, y + 1).number++;
         getField(x, y + 1).number++;
         getField(x + 1, y + 1).number++;
-
     }
-
+    console.log(`fields: `, fields);
 }
 
+
+/**
+ * 
+ * @param {number} x 
+ * @param {number} y 
+ * @returns {Object} 
+ */
 function getField(x, y) {
-
     return fields.find(f => f.x == x && f.y == y) || { number: 0 }
-
-
 }
 
 function checkField(x, y) {
-    //console.log(x, y)
+    console.log(x, y)
     let field = getField(x, y);
     field.revealed = true;
-    render(10, 10);
 
 
     // if(field[x].hasBomb = true){
@@ -119,9 +132,6 @@ function checkField(x, y) {
     //     getField(x - 1, y + 1).number++;
     //     getField(x, y + 1).number++;
     //     getField(x + 1, y + 1).number++;
-
-
-
 
     // }
 
