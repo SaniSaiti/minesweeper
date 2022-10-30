@@ -107,14 +107,14 @@ function generateBombs() {
 function checkNeighbor(arr, index) {
     let x = arr[index].x;
     let y = arr[index].y;
-
+    //Top
     getField(x - 1, y - 1).number++;
     getField(x, y - 1).number++;
     getField(x + 1, y - 1).number++;
-
+    //Mid
     getField(x - 1, y).number++;
     getField(x + 1, y).number++;
-
+    //Bot
     getField(x - 1, y + 1).number++;
     getField(x, y + 1).number++;
     getField(x + 1, y + 1).number++;
@@ -122,7 +122,7 @@ function checkNeighbor(arr, index) {
 
 
 /**
- * 
+ * returns the selected field 
  * @param {number} x 
  * @param {number} y 
  * @returns {Object} 
@@ -132,8 +132,11 @@ function getField(x, y) {
     return field;
 }
 
-
-// bomben / numbern werden nicht richtig angezeigt
+/**
+ * Show the value of the selected field
+ * @param {Number} x 
+ * @param {Number} y 
+ */
 function checkField(x, y) {
     console.log('X: ', x, 'Y: ', y);
     let field = getField(x, y);
