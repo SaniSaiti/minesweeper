@@ -15,5 +15,5 @@ function createHtmlRow(x) {
  * @returns String to create a HTML DIV-Element
  */
 function createHtmlField(x, y) {
-    return /*html*/ `<div id="field${x}${y}" class="field"></div>`;
+    return /*html*/ `<div id="field${x}${y}" class="field field-default" onclick="checkField(${x},${y})"></div>`;
 }

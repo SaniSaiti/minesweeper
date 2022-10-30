@@ -75,32 +75,49 @@ function bombCount() {
 }
 
 /**
+ * generate a random Number between 0 and max-fields
+ * @returns {Number} 
+ */
+function getRandomNumber(arr) {
+    let randomNumber = Math.floor(Math.random() * arr.length);
+    console.log('randomNumber: ', randomNumber);
+    return randomNumber;
+}
+
+/**
  * add bombs to fields
  */
 function generateBombs() {
+    for (let i = 0; i < bombCount(); i++) {
+        //fields filtern und alle mit bombe rausnehmen um keinen platz doppelt zu überschreiben
+        let filteredFields = fields.filter(field => field.hasBomb == false);
+        let randomNumber = getRandomNumber(filteredFields);
+        filteredFields[randomNumber].hasBomb = true;
 
-    for (let index = 0; index < bombCount(); index++) {
-        // kontrolliere ob die zufallsnummer schon existiert
-        let randomNumber = Math.floor(Math.random() * fields.length);
-        console.log('randomNumber: ', randomNumber);
-
-        fields[randomNumber].hasBomb = true;
-
-        let x = fields[randomNumber].x;
-        let y = fields[randomNumber].y;
-
-        getField(x - 1, y - 1).number++;
-        getField(x, y - 1).number++;
-        getField(x + 1, y - 1).number++;
-
-        getField(x - 1, y).number++;
-        getField(x + 1, y).number++;
-
-        getField(x - 1, y + 1).number++;
-        getField(x, y + 1).number++;
-        getField(x + 1, y + 1).number++;
+        checkNeighbor(filteredFields, randomNumber); //anzeige der angrenzeden felder aktalisieren
     }
-    console.log(`fields: `, fields);
+}
+
+
+/**
+ * Erhöhr den Wert aller anliegenden felder um 1
+ * @param {Number} index 
+ * @param {Array} arr
+ */
+function checkNeighbor(arr, index) {
+    let x = arr[index].x;
+    let y = arr[index].y;
+
+    getField(x - 1, y - 1).number++;
+    getField(x, y - 1).number++;
+    getField(x + 1, y - 1).number++;
+
+    getField(x - 1, y).number++;
+    getField(x + 1, y).number++;
+
+    getField(x - 1, y + 1).number++;
+    getField(x, y + 1).number++;
+    getField(x + 1, y + 1).number++;
 }
 
 
@@ -111,28 +128,21 @@ function generateBombs() {
  * @returns {Object} 
  */
 function getField(x, y) {
-    return fields.find(f => f.x == x && f.y == y) || { number: 0 }
+    let field = fields.find(f => f.x == x && f.y == y) || { number: 0 };
+    return field;
 }
 
+
+// bomben / numbern werden nicht richtig angezeigt
 function checkField(x, y) {
-    console.log(x, y)
+    console.log('X: ', x, 'Y: ', y);
     let field = getField(x, y);
-    field.revealed = true;
-
-
-    // if(field[x].hasBomb = true){
-    //     document.getElementById(x)
-    //     getField(x - 1, y - 1).number++;
-    //     getField(x, y - 1).number++;
-    //     getField(x + 1, y - 1).number++;
-
-    //     getField(x - 1, y).number++;
-    //     getField(x + 1, y).number++;
-
-    //     getField(x - 1, y + 1).number++;
-    //     getField(x, y + 1).number++;
-    //     getField(x + 1, y + 1).number++;
-
-    // }
-
+    field.revealed = true; // Aufgedeckt
+    document.getElementById(`field${x}${y}`).classList.remove(`field-default`);
+    if (!field.hasBomb) {
+        document.getElementById(`field${x}${y}`).classList.add(`field-${field.number}`);
+    } else {
+        document.getElementById(`field${x}${y}`).classList.add(`field-bomb`);
+    }
+    // wenn das Feld den wert hasBomb = true besitzt alle bomben anzeigen und spiel beenden
 }
