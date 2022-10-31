@@ -23,21 +23,61 @@ header {
     justify-content: center;
     align-items: center;
     height: var(--header-height);
+    width: 100%;
+}
+
+header img {
+    width: 80%;
 }
 
 main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-block: auto;
+    width: 100%;
+}
+
+#end-frame {
+    position: absolute;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
+#end-frame img {
+    width: 100%;
+}
+
+#end-frame img:last-child {
+    width: 50%;
+    position: absolute;
+    bottom: 10%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+#end-frame img:last-child:hover {
+    opacity: 0.9;
+}
+
 footer {
-    margin-top: auto;
     height: var(--footer-height);
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 24px;
+}
+
+footer a {
+    text-decoration: none;
+    color: brown;
+    padding-inline: 8px;
+    font-weight: bold;
 }
 
 .gamefieldRow {
@@ -54,51 +94,11 @@ footer {
     background-size: cover;
 }
 
-
-/* .field:hover {
-    background-image: url(img/buttons/00b_Default_hover.png);
-} */
-
-.field-bomb {
-    background-image: url(img/buttons/Mine_explode.png);
+.field:hover {
+    opacity: 0.6;
+    /* background-image: url(img/buttons/02_default_hover.png); */
 }
 
-.field-default {
-    background-image: url(img/buttons/00_Default.png);
-}
-
-.field-0 {
-    background-image: url(img/buttons/02_0.png)
-}
-
-.field-1 {
-    background-image: url(img/buttons/02_1.png)
-}
-
-.field-2 {
-    background-image: url(img/buttons/02_2.png)
-}
-
-.field-3 {
-    background-image: url(img/buttons/02_3.png)
-}
-
-.field-4 {
-    background-image: url(img/buttons/02_4.png)
-}
-
-.field-5 {
-    background-image: url(img/buttons/02_5.png)
-}
-
-.field-6 {
-    background-image: url(img/buttons/02_6.png)
-}
-
-.field-7 {
-    background-image: url(img/buttons/02_7.png)
-}
-
-.field-8 {
-    background-image: url(img/buttons/02_8.png)
+.d-none {
+    display: none !important;
 }

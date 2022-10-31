@@ -13,6 +13,7 @@
     <script src="./templateHTML.js"></script>
 
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./field.css">
     <link rel="icon" type="image/x-icon" href="./img/buttons/mine.png">
 
     <title>Minesweeper</title>
@@ -24,13 +25,18 @@
     </header>
 
     <main>
+        <div id="start-frame" class="d-none"></div>
+        <div id="end-frame" class="d-none">
+            <img src="img\WIN-G.OVER\you_win.png">
+            <img src="img/WIN-G.OVER/TRY_AGAIN_BUTTON.png" onclick="init()">
+        </div>
         <div id="gamefield" class="bgB"></div>
     </main>
 
 
 
     <footer>
-        Georg | Kevin | Sani
+        <a href="https://www.georg-strassberger.de/" target="_blank" title="https://www.georg-strassberger.de">Georg</a> | Kevin | Sani
     </footer>
 
 </body>

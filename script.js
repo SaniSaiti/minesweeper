@@ -1,22 +1,32 @@
 /**
- * The DOMContentLoaded event fires when the HTML document has been completely parsed
- */
-addEventListener('DOMContentLoaded', init);
-
-/**
- * array to push the single fields into it, by creading the gamefield size.
+ * all created fields
  */
 let fields = [];
 
+/**
+ * all clicked fields
+ */
+let checkedFields = [];
 
 /**
- * initialize my functions
+ * all fields with bombs
+ */
+let bombFields = [];
+
+
+
+/**
+ * Run Code
  */
 function init() {
-    const xSize = 10;
-    const ySize = 10;
+    resetGame();
+    //Submit SIZE later via input field
+    const xSize = 5;
+    const ySize = 5;
     renderRowsAndColumns(xSize, ySize);
-    fillfields(xSize, ySize);
+    generateBombs();
+    filterFieldsOfBombs();
+
 }
 
 /**
@@ -42,28 +52,27 @@ function renderFields(x, columns) {
     for (let y = 0; y < columns; y++) {
         let row = document.getElementById(`row${x}`);
         row.innerHTML += createHtmlField(x, y);
+        fields.push(field(x, y));
     }
 }
 
 /**
  * Create an object for each field 
+ * @param {Number} x coordinate
+ * @param {Number} y coordinate
+ * @returns {JSON}  field
  */
-function fillfields(col, row) {
-    for (let y = 0; y < col; y++) {
-        for (let x = 0; x < row; x++) {
-            let json = {
-                x,
-                y,
-                number: 0,
-                hasBomb: false,
-                revealed: false,
-                marked: false,
-            }
-            fields.push(json);
-        }
-    }
-    generateBombs();
+function field(x, y) {
+    return {
+        x: x,
+        y: y,
+        number: 0,
+        hasBomb: false,
+        revealed: false,
+        marked: false,
+    };
 }
+
 
 /**
  * Create 10% Bombs of fields
@@ -85,6 +94,13 @@ function getRandomNumber(arr) {
 }
 
 /**
+ * Push fields with Bombs in Array
+ */
+function filterFieldsOfBombs() {
+    bombFields = fields.filter(field => field.hasBomb == true);
+}
+
+/**
  * add bombs to fields
  */
 function generateBombs() {
@@ -94,17 +110,17 @@ function generateBombs() {
         let randomNumber = getRandomNumber(filteredFields);
         filteredFields[randomNumber].hasBomb = true;
 
-        checkNeighbor(filteredFields, randomNumber); //anzeige der angrenzeden felder aktalisieren
+        raiseNeighborfields(filteredFields, randomNumber); //Nachbarfelder um 1 erhöhen
     }
 }
 
 
 /**
- * Erhöhr den Wert aller anliegenden felder um 1
+ * Erhöhr den Wert aller Benachbarten Felder um 1
  * @param {Number} index 
  * @param {Array} arr
  */
-function checkNeighbor(arr, index) {
+function raiseNeighborfields(arr, index) {
     let x = arr[index].x;
     let y = arr[index].y;
     //Top
@@ -132,6 +148,13 @@ function getField(x, y) {
     return field;
 }
 
+
+
+function collectCheckedFields() {
+    checkedFields = fields.filter(field => field.revealed == true);
+    win();
+}
+
 /**
  * Show the value of the selected field
  * @param {Number} x 
@@ -147,5 +170,39 @@ function checkField(x, y) {
     } else {
         document.getElementById(`field${x}${y}`).classList.add(`field-bomb`);
     }
+    collectCheckedFields();
     // wenn das Feld den wert hasBomb = true besitzt alle bomben anzeigen und spiel beenden
 }
+
+function win() {
+    if (fields.length == checkedFields.length) {
+        let end = document.getElementById('end-frame');
+        end.classList.remove('d-none');
+        console.log('Gewonnen');
+    }
+}
+
+/**
+ * reset the globle arrays value to empty
+ */
+function resetGame() {
+    fields = [];
+    bombFields = [];
+    checkedFields = [];
+    hideFrames();
+}
+
+
+/**
+ * hide HTML-Elements
+ */
+function hideFrames() {
+    document.getElementById('end-frame').classList.add('d-none');
+    document.getElementById('start-frame').classList.add('d-none');
+}
+
+
+/**
+ * The DOMContentLoaded event fires when the HTML document has been completely parsed
+ */
+addEventListener('DOMContentLoaded', init);
